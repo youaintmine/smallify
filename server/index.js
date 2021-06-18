@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const validUrl = require('valid-url')
 const Link = require('./models/links')
 const getSmallify = require('./functions/getSmallify')
+const { findOne } = require('./models/links')
 require('./db/mongoose.js')
 
 
@@ -14,6 +15,26 @@ app.use(express.static('./public'))
 
 const port = process.env.PORT || 3000
 
+//Dynamic endpoint //It checks to see if it exists in the database
+app.get('/:user/:domain', async (req, res) => {
+    // TODO : create (req.body)
+    
+    const smallify_db = req.params.user+'/'+req.params.domain
+    console.log(smallify_db)
+    //Find smallify_db in the database if it exists
+    const link = await Link.findOne({smallify: smallify_db})
+    if(link){
+        console.log(link.url)
+        res.status(200).redirect(link.url)
+    } else {
+        res.status(400).send('There is a problem with the link')
+    }
+    
+})
+
+app.get('/links', async (req, res)=>{
+    
+})
 
 app.post('/api/smallify',async (req,res) => {
     console.log(req.body)
@@ -47,10 +68,7 @@ app.post('/api/smallify',async (req,res) => {
     }
 })
 
-//Dynamic endpoint //It checks to see if it exists in the database
-app.get('/:name', (req, res) => {
-    // TOFO : create (req.body)
-})
+
 
 app.listen(port, ()=>{
     console.log(`Listening on PORT : ${port}`)

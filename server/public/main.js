@@ -6,6 +6,7 @@ new Vue({
         success: 'false',
         name: '',
         url: '',
+        domain: '',
         short: '',
         error: 'true'
     },
@@ -36,6 +37,7 @@ new Vue({
                     console.log(result)
                     this.success = true
                     this.short = result.link.smallify
+                    this.domain = 'smallify.ly/'
                 } else{
                     throw new Error('The link cannot be created due to name already taken or invalid URL')
                 }
