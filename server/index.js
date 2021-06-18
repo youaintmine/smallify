@@ -47,9 +47,10 @@ app.post('/api/smallify',async (req,res) => {
     }
 })
 
-// app.post('/:name', (req, res) => {
-//     // TOFO : create (req.body)
-// })
+//Dynamic endpoint //It checks to see if it exists in the database
+app.get('/:name', (req, res) => {
+    // TOFO : create (req.body)
+})
 
 app.listen(port, ()=>{
     console.log(`Listening on PORT : ${port}`)
